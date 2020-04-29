@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "COVID-19 Graphs"
-date:   {{ page.date }}
+date:   2020-04-28 10:09:13 -0400
 categories: jekyll update
 ---
 
