@@ -4,8 +4,7 @@ cd ~/covid
 git add .
 git status
 
-# time= $(date +%d-%b-%H_%M)    
-git commit -m "$time+check"
+git commit -m "$(date +%d-%b-%H_%M)+check"
 git push origin master
 
 
