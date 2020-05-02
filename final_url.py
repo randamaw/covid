@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[23]:
 
 
 import requests
@@ -35,6 +35,13 @@ for path in soup.find_all('p'):
         if (date != ''):
             ray = np.append(ray, date)
         ct += 1
+    
+    elif (phrase.find('May') != -1):
+        pos = phrase.find('May')
+        date = phrase[pos : year]
+        if (date != ''):
+            ray = np.append(ray, date)
+        ct += 1        
 
     elif (phrase.find('March') != -1):
         pos = phrase.find('March')
@@ -52,10 +59,6 @@ for path in soup.find_all('p'):
             if (phrase.find('March 11')):
                 break
 
-# print ('~~~~~~~~~~~~~~~~~~~~~~~~~~~~', ct)
-
-#     if (phrase.find('Number') != -1): # ALL STATISTICS 
-#         print (stat.get_text())
 
 
 
@@ -173,23 +176,37 @@ if (len(allz) != len(nums)):
     ray = np.delete(ray,len(ray)-1)
 
 ct = 0
+# for x in ray:
+#     comma = x.find(',')
+#     if (x.find('March') != -1):
+#         x = '3/'+ x[6:comma]
+#         ray[ct] = x
+#     else:
+#         x = '4/'+ x[6:comma]
+#         ray[ct] = x
+#     ct +=1
+
 for x in ray:
     comma = x.find(',')
     if (x.find('March') != -1):
         x = '3/'+ x[6:comma]
         ray[ct] = x
-    else:
+    elif (x.find('April') != -1):
         x = '4/'+ x[6:comma]
+        ray[ct] = x
+    else:
+        print(x)
+        x = '5/'+ x[4:comma]
         ray[ct] = x
     ct +=1
     
-ray = ray[::-1]   #INVERTS ALL THE COLUMNS
+ray = ray[::-1]#INVERTS ALL THE COLUMNS
 allz = allz[::-1]
 nums = nums[::-1]
 
 
 
-# In[2]:
+# In[25]:
 
 
 redo = np.array([])  ### FILLS DATAFRAME
@@ -211,13 +228,11 @@ for x in redo:
     net = (allz[ct]/x)*100
     rate = np.append(rate, net)
     ct +=1
-
+    
 df = pd.DataFrame({
     "Dates":ray,
     "Positives":allz,
-    "Overall":redo
-#     "Rate":rate
-    
+    "Overall":redo    
 })
 
 
@@ -225,10 +240,9 @@ df['\u0394 +'] = df['Positives'].diff(1) # DELTA POSITIVES!!!!!!!!
 df['\u0394 total'] = df['Overall'].diff(1)
 df['Rate'] = round((df['\u0394 +'] / df['\u0394 total'])* 100,2)
 df = df[7:]
-# print(df)
 
 
-# In[4]:
+# In[26]:
 
 
 from plotly.subplots import make_subplots
