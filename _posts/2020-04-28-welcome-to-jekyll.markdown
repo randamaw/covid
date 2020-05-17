@@ -6,7 +6,6 @@ categories: jekyll update
 ---
 
 {% include graphs.html %}
-
 {% include data.html %}
 
 
